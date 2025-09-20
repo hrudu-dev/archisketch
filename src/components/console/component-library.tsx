@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useDrag } from 'react-dnd';
@@ -29,15 +30,14 @@ export function ComponentLibrary({ loadTemplate }: { loadTemplate: (id: string) 
   const categories: ComponentCategory[] = ['AI', 'Cloud', 'Dev', 'Security', 'Data'];
 
   return (
-    <aside className="flex h-full w-full flex-col bg-background">
-      <div className="flex-1 p-4">
+      <div className="flex-1">
         <Tabs defaultValue="components">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="components">Components</TabsTrigger>
             <TabsTrigger value="templates">Templates</TabsTrigger>
           </TabsList>
           <TabsContent value="components">
-            <ScrollArea className="h-[calc(100vh-10rem)]">
+            <ScrollArea className="h-[calc(100vh-22rem)]">
               <div className="space-y-4 pt-4">
                 {categories.map((category) => (
                   <div key={category}>
@@ -55,7 +55,7 @@ export function ComponentLibrary({ loadTemplate }: { loadTemplate: (id: string) 
             </ScrollArea>
           </TabsContent>
           <TabsContent value="templates">
-            <ScrollArea className="h-[calc(100vh-10rem)]">
+            <ScrollArea className="h-[calc(100vh-22rem)]">
               <div className="space-y-3 pt-4">
                 {diagramTemplates.map(template => (
                   <Card key={template.id}>
@@ -73,6 +73,5 @@ export function ComponentLibrary({ loadTemplate }: { loadTemplate: (id: string) 
           </TabsContent>
         </Tabs>
       </div>
-    </aside>
   );
 }

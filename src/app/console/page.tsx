@@ -1,9 +1,11 @@
+
 'use client';
 
 import React, { useState, useCallback } from 'react';
+import Link from 'next/link';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { PanelLeft, PanelRight } from 'lucide-react';
+import { PanelLeft, PanelRight, LayoutDashboard, Settings, LifeBuoy } from 'lucide-react';
 import { Header } from '@/components/console/header';
 import { ComponentLibrary } from '@/components/console/component-library';
 import { AiPanel } from '@/components/console/ai-panel';
@@ -17,9 +19,15 @@ import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
+  SidebarFooter,
   useSidebar,
 } from '@/components/ui/sidebar';
 import { Button } from '@/components/ui/button';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Separator } from '@/components/ui/separator';
 
 function ConsoleLayout() {
   const [diagram, setDiagram] = useState<Diagram>({ nodes: [], edges: [] });
@@ -84,11 +92,9 @@ function ConsoleLayout() {
       <div className="flex h-screen w-full flex-col bg-muted/40">
         <Header>
           <div className="flex items-center gap-2">
-            <SidebarTrigger>
-              <Button variant="ghost" size="icon" className="md:hidden">
-                <PanelLeft />
-                <span className="sr-only">Toggle Left Sidebar</span>
-              </Button>
+            <SidebarTrigger className="md:hidden">
+              <PanelLeft />
+              <span className="sr-only">Toggle Left Sidebar</span>
             </SidebarTrigger>
              <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setRightSidebarOpen(v => !v)}>
               <PanelRight />
@@ -99,8 +105,45 @@ function ConsoleLayout() {
         <div className="flex flex-1">
           <Sidebar side="left" collapsible="icon">
             <SidebarContent>
-              <ComponentLibrary loadTemplate={handleLoadTemplate} />
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild isActive>
+                    <Link href="/console">
+                      <LayoutDashboard />
+                      <span>Dashboard</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>
+
+              <Accordion type="multiple" defaultValue={['components']} className="w-full px-2 mt-4">
+                  <AccordionItem value="components">
+                    <AccordionTrigger className="text-sm font-medium text-muted-foreground hover:text-foreground hover:no-underline p-2 rounded-md">
+                      <span>Components</span>
+                    </AccordionTrigger>
+                    <AccordionContent className="p-0">
+                      <ComponentLibrary loadTemplate={handleLoadTemplate} />
+                    </AccordionContent>
+                  </AccordionItem>
+              </Accordion>
             </SidebarContent>
+            <SidebarFooter>
+                <Separator className="my-2" />
+                <SidebarMenu>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton>
+                            <LifeBuoy />
+                            <span>Support</span>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton>
+                            <Settings />
+                            <span>Settings</span>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                </SidebarMenu>
+            </SidebarFooter>
           </Sidebar>
 
           <SidebarInset>
