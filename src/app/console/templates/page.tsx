@@ -3,8 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Search } from "lucide-react";
-import Image from "next/image";
+import { Search, Server, Shield, BrainCircuit, Database, Cloud, Code } from "lucide-react";
 import placeholderImages from "@/lib/placeholder-images.json";
 
 const templates = [
@@ -12,37 +11,37 @@ const templates = [
     title: "Basic Cloud Web Application",
     description: "A standard three-tier architecture with a load balancer, compute instances, and a database within a single VPC.",
     category: "Cloud",
-    image: placeholderImages.template1,
+    icon: Server,
   },
   {
     title: "Kubernetes Deployment",
     description: "A typical container orchestration setup with nodes, pods, services, and a persistent volume.",
     category: "Kubernetes",
-    image: placeholderImages.template2,
+    icon: Cloud,
   },
   {
     title: "Serverless Architecture",
     description: "An event-driven pattern using an API Gateway, a function service (e.g., Lambda), and a NoSQL database.",
     category: "Serverless",
-    image: placeholderImages.template3,
+    icon: Code,
   },
   {
     title: "Microservices Architecture",
     description: "Multiple, independently deployable services communicating through an API Gateway or message queue.",
     category: "Microservices",
-    image: placeholderImages.template4,
+    icon: BrainCircuit,
   },
   {
     title: "Data Processing Pipeline",
     description: "An architecture for data ingestion, processing, and storage using a message queue, data lake, and data warehouse.",
     category: "Data",
-    image: placeholderImages.template5,
+    icon: Database,
   },
   {
     title: "Security Best Practices",
     description: "A secure architecture with firewalls, a WAF, network zones (Public, Private, DMZ), and a bastion host.",
     category: "Security",
-    image: placeholderImages.template6,
+    icon: Shield,
   }
 ];
 
@@ -89,15 +88,8 @@ export default function TemplatesPage() {
               <CardDescription>{template.description}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4 flex flex-col flex-grow">
-              <div className="relative aspect-video bg-muted rounded-md overflow-hidden">
-                <Image
-                  src={template.image.src}
-                  alt={`${template.title} preview`}
-                  width={600}
-                  height={400}
-                  className="object-cover w-full h-full"
-                  data-ai-hint={template.image.aiHint}
-                />
+              <div className="relative aspect-video bg-muted rounded-md overflow-hidden flex items-center justify-center">
+                <template.icon className="h-16 w-16 text-muted-foreground" />
               </div>
               <Button className="w-full mt-auto">Use Template</Button>
             </CardContent>
