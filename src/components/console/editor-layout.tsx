@@ -68,6 +68,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { cn } from '@/lib/utils';
 
 const libraryItems = {
   ai: ['AI Model', 'ML Pipeline', 'Agent'],
@@ -79,7 +80,7 @@ const libraryItems = {
 export function EditorLayout() {
   return (
     <TooltipProvider>
-      <div className="grid h-screen w-full">
+      <div className="h-full w-full">
         <ResizablePanelGroup direction="horizontal" className="h-full items-stretch">
           <ResizablePanel defaultSize={20} minSize={15} maxSize={25}>
             <div className="flex h-full flex-col p-4 gap-4">
@@ -88,12 +89,12 @@ export function EditorLayout() {
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input placeholder="Search components..." className="pl-10" />
                 </div>
-              <ScrollArea className="flex-1">
+              <ScrollArea className="flex-1 -mx-4">
                 <Accordion type="multiple" defaultValue={['ai', 'cloud']} className="w-full">
                   <AccordionItem value="ai">
-                    <AccordionTrigger>AI & ML</AccordionTrigger>
+                    <AccordionTrigger className="px-4">AI & ML</AccordionTrigger>
                     <AccordionContent>
-                      <ul className="space-y-2">
+                      <ul className="space-y-1 px-4">
                         {libraryItems.ai.map((item) => (
                           <li key={item} className="p-2 rounded-md hover:bg-muted cursor-pointer text-sm">{item}</li>
                         ))}
@@ -101,31 +102,31 @@ export function EditorLayout() {
                     </AccordionContent>
                   </AccordionItem>
                    <AccordionItem value="cloud">
-                    <AccordionTrigger>Cloud</AccordionTrigger>
+                    <AccordionTrigger className="px-4">Cloud</AccordionTrigger>
                     <AccordionContent>
-                       <ul className="space-y-2">
+                       <ul className="space-y-1 px-4">
                         {libraryItems.cloud.map((item) => (
-                          <li key={item} className="p-2 rounded-md hover-bg-muted cursor-pointer text-sm">{item}</li>
+                          <li key={item} className="p-2 rounded-md hover:bg-muted cursor-pointer text-sm">{item}</li>
                         ))}
                       </ul>
                     </AccordionContent>
                   </AccordionItem>
                    <AccordionItem value="dev">
-                    <AccordionTrigger>Development</AccordionTrigger>
+                    <AccordionTrigger className="px-4">Development</AccordionTrigger>
                     <AccordionContent>
-                       <ul className="space-y-2">
+                       <ul className="space-y-1 px-4">
                         {libraryItems.dev.map((item) => (
-                          <li key={item} className="p-2 rounded-md hover-bg-muted cursor-pointer text-sm">{item}</li>
+                          <li key={item} className="p-2 rounded-md hover:bg-muted cursor-pointer text-sm">{item}</li>
                         ))}
                       </ul>
                     </AccordionContent>
                   </AccordionItem>
                    <AccordionItem value="security">
-                    <AccordionTrigger>Security</AccordionTrigger>
+                    <AccordionTrigger className="px-4">Security</AccordionTrigger>
                     <AccordionContent>
-                        <ul className="space-y-2">
+                        <ul className="space-y-1 px-4">
                         {libraryItems.security.map((item) => (
-                          <li key={item} className="p-2 rounded-md hover-bg-muted cursor-pointer text-sm">{item}</li>
+                          <li key={item} className="p-2 rounded-md hover:bg-muted cursor-pointer text-sm">{item}</li>
                         ))}
                       </ul>
                     </AccordionContent>
@@ -176,13 +177,13 @@ export function EditorLayout() {
           </ResizablePanel>
           <ResizableHandle withHandle />
           <ResizablePanel defaultSize={25} minSize={20} maxSize={30}>
-            <Tabs defaultValue="chat" className="h-full">
+             <Tabs defaultValue="chat" className="flex flex-col h-full">
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="chat">Chat</TabsTrigger>
                 <TabsTrigger value="properties">Properties</TabsTrigger>
               </TabsList>
-              <TabsContent value="chat" className="h-[calc(100%-40px)]">
-                 <div className="flex h-full flex-col">
+              <TabsContent value="chat" className="flex-1 flex flex-col h-0">
+                 <div className="flex-1 flex flex-col h-full">
                     <ScrollArea className="flex-1 p-4">
                         <div className="space-y-4">
                              <div className="flex items-start gap-3">
@@ -241,3 +242,5 @@ export function EditorLayout() {
     </TooltipProvider>
   );
 }
+
+    
