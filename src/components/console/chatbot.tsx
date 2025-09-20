@@ -2,7 +2,8 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { useFormState, useFormStatus } from 'react-dom';
+import { useActionState } from 'react';
+import { useFormStatus } from 'react-dom';
 import { Bot, Send, Loader, User } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
@@ -34,7 +35,7 @@ function SubmitButton() {
 
 export function Chatbot() {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [formState, action] = useFormState(chatAction, initialFormState);
+  const [formState, action] = useActionState(chatAction, initialFormState);
   const formRef = useRef<HTMLFormElement>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
