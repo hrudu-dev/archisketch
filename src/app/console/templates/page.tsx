@@ -119,7 +119,7 @@ function TemplatesLayout() {
                           <Link href="/console/help">
                             <LifeBuoy />
                             <span className="group-data-[collapsible=icon]:hidden">Help</span>
-                          </Link>
+                          </Link>                        
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                     <SidebarMenuItem>

@@ -62,7 +62,10 @@ export function Header({ children }: { children?: React.ReactNode }) {
         </Link>
       </div>
 
-      {children}
+      <div className="flex items-center">
+        {children}
+      </div>
+
       <div className="ml-auto flex items-center gap-2">
         <Button variant="outline" size="sm">
           <Share2 className="h-4 w-4 mr-2" />
