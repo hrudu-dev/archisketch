@@ -39,7 +39,6 @@ export function ConsoleSidebar() {
             <SidebarMenuItem key={item.href}>
               <Link href={item.href} passHref>
                   <SidebarMenuButton
-                    asChild
                     isActive={pathname === item.href}
                     tooltip={item.label}
                   >

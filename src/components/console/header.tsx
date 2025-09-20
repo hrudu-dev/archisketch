@@ -30,6 +30,7 @@ export function ConsoleHeader() {
       </div>
 
       <div className="flex flex-1 items-center justify-end gap-2">
+        <SidebarTrigger />
         <div className="relative w-full max-w-md">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
@@ -38,7 +39,6 @@ export function ConsoleHeader() {
             className="w-full rounded-lg bg-background pl-8"
           />
         </div>
-        <SidebarTrigger />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="h-9 w-9">
