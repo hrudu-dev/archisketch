@@ -67,9 +67,6 @@ function TemplatesLayout() {
         <div className="flex flex-1">
           <Sidebar side="left" collapsible="icon">
             <SidebarContent>
-              <SidebarHeader>
-                {/* Placeholder for any header content if needed */}
-              </SidebarHeader>
               <SidebarMenu>
                  <SidebarMenuItem>
                   <SidebarMenuButton asChild tooltip="Dashboard">
@@ -109,10 +106,10 @@ function TemplatesLayout() {
                 <Separator className="my-2" />
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <SidebarMenuButton asChild tooltip="Support">
+                        <SidebarMenuButton asChild tooltip="Help">
                           <Link href="/console/help">
                             <LifeBuoy />
-                            <span className="group-data-[collapsible=icon]:hidden">Support</span>
+                            <span className="group-data-[collapsible=icon]:hidden">Help</span>
                           </Link>
                         </SidebarMenuButton>
                     </SidebarMenuItem>

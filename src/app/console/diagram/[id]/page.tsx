@@ -26,7 +26,6 @@ import { diagramTemplates } from '@/lib/data';
 import {
   Sidebar,
   SidebarContent,
-  SidebarHeader,
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
@@ -149,10 +148,10 @@ function DiagramEditorLayout() {
                 <Separator className="my-2" />
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <SidebarMenuButton asChild tooltip="Support">
+                        <SidebarMenuButton asChild tooltip="Help">
                           <Link href="/console/help">
                             <LifeBuoy />
-                            <span className="group-data-[collapsible=icon]:hidden">Support</span>
+                            <span className="group-data-[collapsible=icon]:hidden">Help</span>
                           </Link>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
