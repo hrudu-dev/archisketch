@@ -9,7 +9,7 @@ import { PanelLeft } from "lucide-react"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent } from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet"
 import {
   Tooltip,
   TooltipContent,
@@ -368,7 +368,7 @@ const SidebarMenuButton = React.forwardRef<
         className={cn(sidebarMenuButtonVariants({ size }), state === 'collapsed' && 'justify-center w-10 h-10 p-0', className)}
         {...props}
       >
-        {icon && React.cloneElement(icon as React.ReactElement, { className: 'h-5 w-5 shrink-0' })}
+        {icon}
         {state === 'expanded' && label}
       </Comp>
     )
