@@ -17,7 +17,6 @@ import {
 import { useTheme } from 'next-themes';
 
 export function ConsoleHeader() {
-  const { toggleSidebar } = useSidebar();
   const { setTheme } = useTheme();
 
   return (
@@ -27,11 +26,7 @@ export function ConsoleHeader() {
           <Image src={ArchiSketchLogo} alt="ArchiSketch Logo" width={24} height={24} />
           <span className="hidden sm:inline-block">ArchiSketch</span>
         </Link>
-        <SidebarTrigger asChild>
-          <Button variant="ghost" size="icon" className="h-9 w-9">
-            <PanelLeft />
-          </Button>
-        </SidebarTrigger>
+        <SidebarTrigger />
       </div>
 
       <div className="flex flex-1 items-center justify-end gap-4">
