@@ -2,13 +2,12 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Github, Key, Mail, Mic } from 'lucide-react';
+import { Github, Key, Mail } from 'lucide-react';
 
 const MicrosoftIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -21,20 +20,13 @@ const MicrosoftIcon = () => (
 
 
 export function LoginForm() {
-  const router = useRouter();
-
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    router.push('/console');
-  };
-
   return (
     <Card>
       <CardHeader>
         <CardTitle>Welcome Back</CardTitle>
         <CardDescription>Enter your credentials to access your diagrams.</CardDescription>
       </CardHeader>
-      <form onSubmit={handleLogin}>
+      <form action="/console">
         <CardContent className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
