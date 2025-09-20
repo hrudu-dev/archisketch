@@ -26,7 +26,7 @@ export function ConsoleHeader() {
           <Image src={ArchiSketchLogo} alt="ArchiSketch Logo" width={24} height={24} />
           <span className="sm:inline-block">ArchiSketch</span>
         </Link>
-        <SidebarTrigger asChild>
+        <SidebarTrigger>
             <Button variant="ghost" size="icon">
                 <PanelLeft />
             </Button>
