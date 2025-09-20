@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Download, LogOut, Settings, User as UserIcon } from 'lucide-react';
 import { toPng } from 'html-to-image';
 import { saveAs } from 'file-saver';
@@ -44,7 +45,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6 py-2">
       <Link href="/console" className="flex items-center gap-2 font-semibold">
-        <ArchiSketchLogo className="h-6 w-6" />
+        <Image src={ArchiSketchLogo} alt="ArchiSketch Logo" className="h-6 w-6" />
         <span className="">ArchiSketch</span>
       </Link>
       <div className="ml-auto flex items-center gap-2">
