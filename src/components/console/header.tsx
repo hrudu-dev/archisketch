@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
-export function Header() {
+export function Header({ children }: { children?: React.ReactNode }) {
   const handleExport = () => {
     const canvasElement = document.getElementById('diagram-canvas');
     if (!canvasElement) {
@@ -48,6 +48,7 @@ export function Header() {
         <Image src={ArchiSketchLogo} alt="ArchiSketch Logo" className="h-6 w-6" />
         <span className="">ArchiSketch</span>
       </Link>
+      {children}
       <div className="ml-auto flex items-center gap-2">
         <Button variant="outline" size="sm" onClick={handleExport}>
           <Download className="h-4 w-4 mr-2" />

@@ -29,7 +29,7 @@ export function ComponentLibrary({ loadTemplate }: { loadTemplate: (id: string) 
   const categories: ComponentCategory[] = ['AI', 'Cloud', 'Dev', 'Security', 'Data'];
 
   return (
-    <aside className="hidden h-full w-80 flex-col border-r bg-background sm:flex">
+    <aside className="flex h-full w-full flex-col bg-background">
       <div className="flex-1 p-4">
         <Tabs defaultValue="components">
           <TabsList className="grid w-full grid-cols-2">

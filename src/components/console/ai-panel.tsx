@@ -84,7 +84,7 @@ function SuggestionForm({ diagram }: { diagram: Diagram }) {
 
 export function AiPanel({ diagram, setGeneratedDiagram }: AiPanelProps) {
   return (
-    <aside className="hidden h-full w-96 flex-col border-l bg-background sm:flex">
+    <aside className="flex h-full w-full flex-col bg-background">
       <ScrollArea className="flex-1 p-4">
         <div className="space-y-6">
           <Accordion type="single" collapsible defaultValue="generate" className="w-full">
