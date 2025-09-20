@@ -1,16 +1,38 @@
+
 "use client"
 
 import * as React from "react"
 import { Pie, PieChart, ResponsiveContainer, Cell, Tooltip } from "recharts"
 
-const data = [
+const defaultData = [
   { name: "You", value: 45, color: "hsl(var(--primary))" },
   { name: "Jane", value: 30, color: "hsl(var(--chart-2))" },
   { name: "Alex", value: 20, color: "hsl(var(--chart-3))" },
   { name: "Bob", value: 5, color: "hsl(var(--chart-4))" },
 ]
 
-export function CollaboratorBreakdownChart() {
+const COLORS = [
+    "hsl(var(--primary))",
+    "hsl(var(--chart-2))",
+    "hsl(var(--chart-3))",
+    "hsl(var(--chart-4))",
+    "hsl(var(--chart-5))",
+];
+
+interface CollaboratorBreakdownChartProps {
+    data?: { name: string; value: number }[];
+}
+
+export function CollaboratorBreakdownChart({ data = defaultData }: CollaboratorBreakdownChartProps) {
+    const chartData = data.map((item, index) => ({
+        ...item,
+        color: COLORS[index % COLORS.length]
+    }));
+
+    if (chartData.length === 0) {
+        return <div className="h-[250px] flex items-center justify-center text-muted-foreground text-sm">No data available</div>
+    }
+
   return (
     <div className="h-[250px] flex items-center justify-center">
         <ResponsiveContainer width="100%" height="100%">
@@ -28,7 +50,7 @@ export function CollaboratorBreakdownChart() {
                 }}
             />
             <Pie
-                data={data}
+                data={chartData}
                 dataKey="value"
                 nameKey="name"
                 cx="50%"
@@ -37,7 +59,7 @@ export function CollaboratorBreakdownChart() {
                 outerRadius={80}
                 paddingAngle={5}
                 >
-                {data.map((entry, index) => (
+                {chartData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />
                 ))}
             </Pie>

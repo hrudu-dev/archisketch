@@ -1,8 +1,9 @@
+
 "use client"
 
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip } from "recharts"
+import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 
-const data = [
+const defaultData = [
   { name: "EC2", uses: 56 },
   { name: "Arrow", uses: 45 },
   { name: "DB", uses: 28 },
@@ -10,7 +11,15 @@ const data = [
   { name: "Pod", uses: 17 },
 ]
 
-export function MostUsedShapesChart() {
+interface MostUsedShapesChartProps {
+    data?: { name: string; uses: number }[];
+}
+
+export function MostUsedShapesChart({ data = defaultData }: MostUsedShapesChartProps) {
+    if (!data || data.length === 0) {
+        return <div className="h-[250px] flex items-center justify-center text-muted-foreground text-sm">No data available</div>
+    }
+
   return (
     <div className="h-[250px]">
         <ResponsiveContainer width="100%" height="100%">

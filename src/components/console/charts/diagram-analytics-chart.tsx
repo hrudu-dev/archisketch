@@ -1,8 +1,9 @@
+
 "use client"
 
-import { Line, LineChart, ResponsiveContainer, XAxis, YAxis, Tooltip } from "recharts"
+import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 
-const data = [
+const defaultData = [
   { name: "Day 1", diagrams: 2 },
   { name: "Day 5", diagrams: 5 },
   { name: "Day 10", diagrams: 8 },
@@ -12,13 +13,21 @@ const data = [
   { name: "Day 30", diagrams: 15 },
 ]
 
-export function DiagramAnalyticsChart() {
+interface DiagramAnalyticsChartProps {
+    data?: { name: string; diagrams: number }[];
+}
+
+export function DiagramAnalyticsChart({ data = defaultData }: DiagramAnalyticsChartProps) {
+    if (!data || data.length === 0) {
+        return <div className="h-[250px] flex items-center justify-center text-muted-foreground text-sm">No data available</div>
+    }
+
   return (
     <div className="h-[250px]">
         <ResponsiveContainer width="100%" height="100%">
         <LineChart data={data} margin={{ top: 5, right: 10, left: 10, bottom: 0 }}>
             <Tooltip
-                content={({ active, payload, label }) => {
+                content={({ active, payload }) => {
                     if (active && payload && payload.length) {
                         return (
                         <div className="rounded-lg border bg-background p-2 shadow-sm">
@@ -28,7 +37,7 @@ export function DiagramAnalyticsChart() {
                                 Day
                                 </span>
                                 <span className="font-bold text-muted-foreground">
-                                {label}
+                                {payload[0].payload.name}
                                 </span>
                             </div>
                             <div className="flex flex-col">
