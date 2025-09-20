@@ -105,7 +105,7 @@ export function EditorLayout() {
                     <AccordionContent>
                        <ul className="space-y-2">
                         {libraryItems.cloud.map((item) => (
-                          <li key={item} className="p-2 rounded-md hover:bg-muted cursor-pointer text-sm">{item}</li>
+                          <li key={item} className="p-2 rounded-md hover-bg-muted cursor-pointer text-sm">{item}</li>
                         ))}
                       </ul>
                     </AccordionContent>
@@ -115,7 +115,7 @@ export function EditorLayout() {
                     <AccordionContent>
                        <ul className="space-y-2">
                         {libraryItems.dev.map((item) => (
-                          <li key={item} className="p-2 rounded-md hover:bg-muted cursor-pointer text-sm">{item}</li>
+                          <li key={item} className="p-2 rounded-md hover-bg-muted cursor-pointer text-sm">{item}</li>
                         ))}
                       </ul>
                     </AccordionContent>
@@ -125,7 +125,7 @@ export function EditorLayout() {
                     <AccordionContent>
                         <ul className="space-y-2">
                         {libraryItems.security.map((item) => (
-                          <li key={item} className="p-2 rounded-md hover:bg-muted cursor-pointer text-sm">{item}</li>
+                          <li key={item} className="p-2 rounded-md hover-bg-muted cursor-pointer text-sm">{item}</li>
                         ))}
                       </ul>
                     </AccordionContent>
