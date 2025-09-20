@@ -84,7 +84,7 @@ function ConsoleLayout() {
       <div className="flex h-screen w-full flex-col bg-muted/40">
         <Header>
           <div className="flex items-center gap-2">
-            <SidebarTrigger asChild>
+            <SidebarTrigger>
               <Button variant="ghost" size="icon" className="md:hidden">
                 <PanelLeft />
                 <span className="sr-only">Toggle Left Sidebar</span>
