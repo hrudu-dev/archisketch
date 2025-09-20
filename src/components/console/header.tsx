@@ -15,6 +15,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useTheme } from 'next-themes';
+import { Chatbot } from './chatbot';
 
 export function ConsoleHeader() {
   const { setTheme } = useTheme();
@@ -29,7 +30,7 @@ export function ConsoleHeader() {
         <SidebarTrigger />
       </div>
 
-      <div className="flex flex-1 items-center justify-end gap-4">
+      <div className="flex flex-1 items-center justify-end gap-2">
         <div className="relative w-full max-w-md">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
@@ -56,6 +57,7 @@ export function ConsoleHeader() {
           <Bell className="h-5 w-5" />
           <span className="sr-only">Toggle notifications</span>
         </Button>
+        <Chatbot />
       </div>
     </header>
   );
