@@ -10,6 +10,7 @@ import {
   Settings,
   LifeBuoy,
   LogOut,
+  PanelLeft,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -22,6 +23,7 @@ import {
   SidebarFooter,
   SidebarProvider,
   SidebarInset,
+  SidebarTrigger,
 } from '@/components/ui/sidebar';
 import { Separator } from '@/components/ui/separator';
 import { Header } from '@/components/console/header';
@@ -57,7 +59,14 @@ function ConsoleLayout() {
   return (
     <SidebarProvider>
       <div className="flex h-screen w-full flex-col bg-background">
-        <Header />
+        <Header>
+          <div className="flex items-center gap-2">
+            <SidebarTrigger className="hidden md:flex">
+              <PanelLeft />
+              <span className="sr-only">Toggle Left Sidebar</span>
+            </SidebarTrigger>
+          </div>
+        </Header>
         <div className="flex flex-1">
           <Sidebar side="left" collapsible="icon">
             <SidebarContent>

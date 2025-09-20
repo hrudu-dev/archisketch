@@ -58,7 +58,7 @@ export function Header({ children }: { children?: React.ReactNode }) {
         </Button>
         <Link href="/console" className="flex items-center gap-2 font-semibold text-lg">
           <Image src={ArchiSketchLogo} alt="ArchiSketch Logo" className="h-7 w-7" />
-          <h1>ArchiSketch</h1>
+          <h1 className="hidden md:block">ArchiSketch</h1>
         </Link>
       </div>
 

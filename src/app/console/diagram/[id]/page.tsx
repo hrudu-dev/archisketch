@@ -90,7 +90,7 @@ function DiagramEditorLayout() {
       <div className="flex h-screen w-full flex-col bg-background">
         <Header>
           <div className="flex items-center gap-2">
-            <SidebarTrigger className="md:hidden">
+            <SidebarTrigger className="hidden md:flex">
               <PanelLeft />
               <span className="sr-only">Toggle Left Sidebar</span>
             </SidebarTrigger>
@@ -100,7 +100,7 @@ function DiagramEditorLayout() {
             </Button>
           </div>
         </Header>
-        <div className="flex flex-1">
+        <div className="flex flex-1 overflow-hidden">
           <Sidebar side="left" collapsible="icon">
             <SidebarContent>
               <SidebarMenu>
