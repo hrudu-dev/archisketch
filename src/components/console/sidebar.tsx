@@ -37,15 +37,13 @@ export function ConsoleSidebar() {
         <SidebarMenu>
           {menuItems.map((item) => (
             <SidebarMenuItem key={item.href}>
-              <Link href={item.href}>
+              <Link href={item.href} legacyBehavior={false}>
                   <SidebarMenuButton
                     isActive={pathname === item.href}
                     tooltip={item.label}
                   >
-                    <div>
-                      <item.icon className="h-5 w-5" />
-                      <span>{item.label}</span>
-                    </div>
+                    <item.icon className="h-5 w-5" />
+                    <span>{item.label}</span>
                   </SidebarMenuButton>
               </Link>
             </SidebarMenuItem>
