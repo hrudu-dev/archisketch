@@ -9,8 +9,7 @@ import {
   useActionState,
 } from 'react';
 import { useFormStatus } from 'react-dom';
-import { DndProvider, useDrag, useDrop } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import { useDrag, useDrop } from 'react-dnd';
 import {
   Bot,
   CornerDownLeft,
@@ -167,16 +166,14 @@ export function EditorLayout() {
   }, [formState]);
 
   useEffect(() => {
-    if (scrollAreaRef.current) {
-        setTimeout(() => {
-            const viewport = scrollAreaRef.current?.querySelector('div[data-radix-scroll-area-viewport]');
-            if (viewport) {
-                viewport.scrollTo({
-                    top: viewport.scrollHeight,
-                    behavior: 'smooth'
-                });
-            }
-        }, 100);
+    const viewport = scrollAreaRef.current?.querySelector('div[data-radix-scroll-area-viewport]');
+    if (viewport) {
+      setTimeout(() => {
+        viewport.scrollTo({
+          top: viewport.scrollHeight,
+          behavior: 'smooth',
+        });
+      }, 100);
     }
   }, [messages]);
 
@@ -200,7 +197,6 @@ export function EditorLayout() {
 
 
   return (
-    <DndProvider backend={HTML5Backend}>
       <TooltipProvider>
         <div className="h-full w-full overflow-hidden">
           <ResizablePanelGroup direction="horizontal" className="h-full items-stretch">
@@ -348,7 +344,7 @@ export function EditorLayout() {
                                   ? 'bg-muted'
                                   : message.content.startsWith('Error:')
                                   ? 'bg-destructive/20 text-destructive'
-                                  : 'bg-secondary'
+                                  : 'bg-secondary text-secondary-foreground'
                               )}
                             >
                                {message.content === '...' ? (
@@ -358,8 +354,8 @@ export function EditorLayout() {
                                 )}
                             </div>
                             {message.role === 'user' && (
-                              <div className="bg-secondary rounded-full p-2">
-                                <SquareUser className="h-5 w-5 text-secondary-foreground" />
+                              <div className="bg-muted rounded-full p-2">
+                                <SquareUser className="h-5 w-5 text-muted-foreground" />
                               </div>
                             )}
                           </div>
@@ -424,6 +420,5 @@ export function EditorLayout() {
           </ResizablePanelGroup>
         </div>
       </TooltipProvider>
-    </DndProvider>
   );
 }
