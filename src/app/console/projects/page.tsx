@@ -5,6 +5,7 @@ import React from 'react';
 import Link from 'next/link';
 import {
   Home,
+  LayoutDashboard,
   FolderKanban,
   ClipboardPlus,
   Settings,
@@ -67,6 +68,14 @@ function ProjectsLayout() {
                     <Link href="/console">
                       <Home />
                       <span className="group-data-[collapsible=icon]:hidden">Dashboard</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                 <SidebarMenuItem>
+                  <SidebarMenuButton asChild tooltip="Editor">
+                    <Link href="/console/diagram/1">
+                      <LayoutDashboard />
+                      <span className="group-data-[collapsible=icon]:hidden">Editor</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
