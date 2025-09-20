@@ -75,13 +75,13 @@ export default function TemplatesPage() {
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {templates.map((template) => (
-          <Card key={template.title}>
+          <Card key={template.title} className="flex flex-col">
             <CardHeader>
               <CardTitle>{template.title}</CardTitle>
               <CardDescription>{template.description}</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-center h-40 bg-muted rounded-md">
+            <CardContent className="space-y-4 flex flex-col flex-grow">
+              <div className="flex items-center justify-center h-40 bg-muted rounded-md flex-grow">
                 <p className="text-sm text-muted-foreground">Diagram Preview</p>
               </div>
               <Button className="w-full">Use Template</Button>
