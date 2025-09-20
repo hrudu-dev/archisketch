@@ -15,8 +15,8 @@ export default function SettingsPage() {
         The Settings page is where you can personalize your user experience. It allows you to manage your account details, such as your profile and password, and customize your workspace preferences. You can adjust grid settings, change the canvas background, switch between light and dark themes, and even define your own custom keyboard shortcuts to fit your workflow.
       </p>
 
-      <Tabs defaultValue="account" className="flex flex-col md:flex-row gap-8">
-        <TabsList className="flex md:flex-col h-auto bg-transparent p-0 md:w-1/4 lg:w-1/5">
+      <Tabs defaultValue="account" orientation="vertical" className="flex flex-col md:flex-row gap-8">
+        <TabsList className="flex md:flex-col h-auto bg-transparent p-0 md:w-1/4 lg:w-1/5 shrink-0">
           <TabsTrigger value="account" className="w-full justify-start data-[state=active]:bg-accent">Account</TabsTrigger>
           <TabsTrigger value="workspace" className="w-full justify-start data-[state=active]:bg-accent">Workspace</TabsTrigger>
           <TabsTrigger value="shortcuts" className="w-full justify-start data-[state=active]:bg-accent">Keyboard Shortcuts</TabsTrigger>
