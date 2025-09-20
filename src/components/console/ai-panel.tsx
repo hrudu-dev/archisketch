@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useFormState } from 'react-dom';
+import { useActionState } from 'react';
 import { Bot, Lightbulb } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
@@ -18,7 +18,7 @@ interface AiPanelProps {
 }
 
 function GenerateForm({ setGeneratedDiagram }: { setGeneratedDiagram: (diagram: Diagram) => void }) {
-  const [state, formAction] = useFormState(generateDiagramAction, { status: 'idle' });
+  const [state, formAction] = useActionState(generateDiagramAction, { status: 'idle' });
 
   React.useEffect(() => {
     if (state.status === 'success' && state.diagram) {
@@ -43,7 +43,7 @@ function GenerateForm({ setGeneratedDiagram }: { setGeneratedDiagram: (diagram: 
 }
 
 function SuggestionForm({ diagram }: { diagram: Diagram }) {
-    const [state, formAction] = useFormState(suggestAction, { status: 'idle' });
+    const [state, formAction] = useActionState(suggestAction, { status: 'idle' });
 
     const canvasContext = `Current diagram has ${diagram.nodes.length} nodes and ${diagram.edges.length} edges. Nodes: ${diagram.nodes.map(n => n.data.label).join(', ')}`;
 
