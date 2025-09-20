@@ -1,0 +1,27 @@
+
+{
+  "template1": {
+    "src": "https://picsum.photos/seed/arch1/600/400",
+    "aiHint": "cloud architecture"
+  },
+  "template2": {
+    "src": "https://picsum.photos/seed/arch2/600/400",
+    "aiHint": "kubernetes diagram"
+  },
+  "template3": {
+    "src": "https://picsum.photos/seed/arch3/600/400",
+    "aiHint": "serverless architecture"
+  },
+  "template4": {
+    "src": "https://picsum.photos/seed/arch4/600/400",
+    "aiHint": "microservices diagram"
+  },
+  "template5": {
+    "src": "https://picsum.photos/seed/arch5/600/400",
+    "aiHint": "data pipeline"
+  },
+  "template6": {
+    "src": "https://picsum.photos/seed/arch6/600/400",
+    "aiHint": "security architecture"
+  }
+}

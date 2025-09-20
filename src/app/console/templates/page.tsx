@@ -4,37 +4,45 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Search } from "lucide-react";
+import Image from "next/image";
+import placeholderImages from "@/lib/placeholder-images.json";
 
 const templates = [
   {
     title: "Basic Cloud Web Application",
     description: "A standard three-tier architecture with a load balancer, compute instances, and a database within a single VPC.",
     category: "Cloud",
+    image: placeholderImages.template1,
   },
   {
     title: "Kubernetes Deployment",
     description: "A typical container orchestration setup with nodes, pods, services, and a persistent volume.",
     category: "Kubernetes",
+    image: placeholderImages.template2,
   },
   {
     title: "Serverless Architecture",
     description: "An event-driven pattern using an API Gateway, a function service (e.g., Lambda), and a NoSQL database.",
     category: "Serverless",
+    image: placeholderImages.template3,
   },
   {
     title: "Microservices Architecture",
     description: "Multiple, independently deployable services communicating through an API Gateway or message queue.",
     category: "Microservices",
+    image: placeholderImages.template4,
   },
   {
     title: "Data Processing Pipeline",
     description: "An architecture for data ingestion, processing, and storage using a message queue, data lake, and data warehouse.",
     category: "Data",
+    image: placeholderImages.template5,
   },
   {
     title: "Security Best Practices",
     description: "A secure architecture with firewalls, a WAF, network zones (Public, Private, DMZ), and a bastion host.",
     category: "Security",
+    image: placeholderImages.template6,
   }
 ];
 
@@ -81,10 +89,16 @@ export default function TemplatesPage() {
               <CardDescription>{template.description}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4 flex flex-col flex-grow">
-              <div className="flex items-center justify-center h-40 bg-muted rounded-md flex-grow">
-                <p className="text-sm text-muted-foreground">Diagram Preview</p>
+              <div className="relative h-40 bg-muted rounded-md flex-grow">
+                <Image
+                  src={template.image.src}
+                  alt={`${template.title} preview`}
+                  fill
+                  className="object-cover rounded-md"
+                  data-ai-hint={template.image.aiHint}
+                />
               </div>
-              <Button className="w-full">Use Template</Button>
+              <Button className="w-full mt-auto">Use Template</Button>
             </CardContent>
           </Card>
         ))}
