@@ -2,9 +2,8 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Home, Edit, FolderKanban, LayoutTemplate } from 'lucide-react';
+import { Home, Edit, FolderKanban, LayoutTemplate, Settings, HelpCircle } from 'lucide-react';
 import {
   Sidebar,
   SidebarContent,
@@ -13,11 +12,8 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   useSidebar,
+  SidebarFooter,
 } from '@/components/ui/sidebar';
-import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
-import ArchiSketchLogoDark from '@/../public/archisketch-logo-dark.svg';
-import ArchiSketchLogoLight from '@/../public/archisketch-logo-light.svg';
 import { Logo } from '../logo';
 
 const menuItems = [
@@ -25,6 +21,11 @@ const menuItems = [
   { href: '/console/projects', label: 'Projects', icon: FolderKanban },
   { href: '/console/editor', label: 'Editor', icon: Edit },
   { href: '/console/templates', label: 'Templates', icon: LayoutTemplate },
+];
+
+const bottomMenuItems = [
+    { href: '/console/settings', label: 'Settings', icon: Settings },
+    { href: '/console/help', label: 'Help', icon: HelpCircle },
 ];
 
 export function ConsoleSidebar() {
@@ -57,6 +58,24 @@ export function ConsoleSidebar() {
           ))}
         </SidebarMenu>
       </SidebarContent>
+      <SidebarFooter>
+        <SidebarMenu>
+            {bottomMenuItems.map((item) => (
+                <SidebarMenuItem key={item.href}>
+                <Link href={item.href} legacyBehavior={false}>
+                    <SidebarMenuButton
+                        isActive={pathname === item.href}
+                        tooltip={item.label}
+                        className="text-foreground font-medium"
+                    >
+                        <item.icon className="h-5 w-5" />
+                        <span>{item.label}</span>
+                    </SidebarMenuButton>
+                </Link>
+                </SidebarMenuItem>
+            ))}
+        </SidebarMenu>
+      </SidebarFooter>
     </Sidebar>
   );
 }
