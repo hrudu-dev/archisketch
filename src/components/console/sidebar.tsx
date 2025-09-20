@@ -26,7 +26,7 @@ export function ConsoleSidebar() {
   return (
     <Sidebar className="border-r" side="left">
       <SidebarHeader className="border-b p-2 justify-center flex items-center gap-2">
-        <SidebarTrigger asChild>
+        <SidebarTrigger>
           <Button variant="ghost" size="icon">
             <PanelLeft />
           </Button>
