@@ -8,10 +8,7 @@ import { PanelLeft } from "lucide-react"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Separator } from "@/components/ui/separator"
 import { Sheet, SheetContent } from "@/components/ui/sheet"
-import { Skeleton } from "@/components/ui/skeleton"
 import {
   Tooltip,
   TooltipContent,
@@ -357,16 +354,32 @@ const SidebarMenuButton = React.forwardRef<
     const buttonContent = (
       <>
         {React.Children.map(children, child => {
+          // Clone the icon with a fixed size
           if (React.isValidElement(child) && (child.type as any).render?.displayName === 'LucideIcon') {
             return React.cloneElement(child, { className: cn('h-5 w-5 shrink-0', (child.props as any).className) });
           }
-          if (state === 'expanded') {
-            return child;
+          // Show the text only when expanded
+          if (state === 'expanded' && child) {
+            return <span>{child}</span>
           }
-          return null;
+          // When collapsed, only the icon is rendered, we don't need the text span
+          if (state === 'collapsed' && React.isValidElement(child) && (child.type as any).render?.displayName === 'LucideIcon') {
+            return child
+          }
+
+          // This handles the case where children are passed directly (e.g., the label)
+          if (state === 'expanded') {
+              return child;
+          }
+
+          return null
         })}
       </>
     );
+
+    const mainChildren = React.Children.toArray(children);
+    const icon = mainChildren.find(child => React.isValidElement(child) && (child.type as any).render?.displayName === 'LucideIcon');
+    const label = mainChildren.find(child => !icon || child !== icon);
 
     const button = (
       <Comp
@@ -377,7 +390,8 @@ const SidebarMenuButton = React.forwardRef<
         className={cn(sidebarMenuButtonVariants({ size }), state === 'collapsed' && 'justify-center w-10 h-10 p-0', className)}
         {...props}
       >
-        {buttonContent}
+        {icon}
+        {state === 'expanded' && label}
       </Comp>
     )
 
