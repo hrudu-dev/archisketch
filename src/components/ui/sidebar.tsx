@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -158,7 +159,8 @@ SidebarProvider.displayName = "SidebarProvider"
 const Sidebar = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div"> & {
-    side?: "left" | "right"
+    side?: "left" | "right",
+    mobileContent?: React.ReactNode,
   }
 >(
   (
@@ -166,6 +168,7 @@ const Sidebar = React.forwardRef<
       side = "left",
       className,
       children,
+      mobileContent,
       ...props
     },
     ref
@@ -182,7 +185,7 @@ const Sidebar = React.forwardRef<
               ['--sidebar-width-mobile' as any]: SIDEBAR_WIDTH_MOBILE,
             }}
           >
-            <div className="flex h-full flex-col">{children}</div>
+            <div className="flex h-full flex-col">{mobileContent ?? children}</div>
           </SheetContent>
         </Sheet>
       );
@@ -239,11 +242,12 @@ const SidebarHeader = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div">
 >(({ className, ...props }, ref) => {
+  const { state } = useSidebar();
   return (
     <div
       ref={ref}
       data-sidebar="header"
-      className={cn("flex flex-col gap-2 p-2", className)}
+      className={cn("flex", state === 'expanded' ? 'flex-row' : 'flex-col', "gap-2 p-2", className)}
       {...props}
     />
   )
@@ -351,32 +355,6 @@ const SidebarMenuButton = React.forwardRef<
     const Comp = asChild ? Slot : "button"
     const { isMobile, state } = useSidebar()
 
-    const buttonContent = (
-      <>
-        {React.Children.map(children, child => {
-          // Clone the icon with a fixed size
-          if (React.isValidElement(child) && (child.type as any).render?.displayName === 'LucideIcon') {
-            return React.cloneElement(child, { className: cn('h-5 w-5 shrink-0', (child.props as any).className) });
-          }
-          // Show the text only when expanded
-          if (state === 'expanded' && child) {
-            return <span>{child}</span>
-          }
-          // When collapsed, only the icon is rendered, we don't need the text span
-          if (state === 'collapsed' && React.isValidElement(child) && (child.type as any).render?.displayName === 'LucideIcon') {
-            return child
-          }
-
-          // This handles the case where children are passed directly (e.g., the label)
-          if (state === 'expanded') {
-              return child;
-          }
-
-          return null
-        })}
-      </>
-    );
-
     const mainChildren = React.Children.toArray(children);
     const icon = mainChildren.find(child => React.isValidElement(child) && (child.type as any).render?.displayName === 'LucideIcon');
     const label = mainChildren.find(child => !icon || child !== icon);
@@ -390,7 +368,7 @@ const SidebarMenuButton = React.forwardRef<
         className={cn(sidebarMenuButtonVariants({ size }), state === 'collapsed' && 'justify-center w-10 h-10 p-0', className)}
         {...props}
       >
-        {icon}
+        {icon && React.cloneElement(icon as React.ReactElement, { className: 'h-5 w-5 shrink-0' })}
         {state === 'expanded' && label}
       </Comp>
     )
@@ -399,11 +377,7 @@ const SidebarMenuButton = React.forwardRef<
       return button
     }
 
-    if (typeof tooltip === "string") {
-      tooltip = {
-        children: tooltip,
-      }
-    }
+    const tooltipContent = typeof tooltip === 'string' ? tooltip : tooltip.children;
 
     return (
       <Tooltip>
@@ -412,9 +386,8 @@ const SidebarMenuButton = React.forwardRef<
           side="right"
           align="center"
           hidden={state !== "collapsed" || isMobile}
-          {...tooltip}
         >
-         {tooltip}
+         {tooltipContent}
         </TooltipContent>
       </Tooltip>
     )
