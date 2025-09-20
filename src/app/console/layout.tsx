@@ -15,12 +15,12 @@ export default function ConsoleLayout({
 }) {
   return (
     <SidebarProvider>
-      <div className="flex h-screen flex-col">
-        <ConsoleHeader />
-        <div className="flex flex-1 overflow-hidden">
-          <ConsoleSidebar />
-          <main className="flex-1 overflow-y-auto bg-background">{children}</main>
-        </div>
+      <div className="flex h-screen overflow-hidden">
+        <ConsoleSidebar />
+        <main className="flex flex-1 flex-col overflow-y-auto bg-background">
+          <ConsoleHeader />
+          <div className="flex-1 overflow-y-auto">{children}</div>
+        </main>
       </div>
     </SidebarProvider>
   );
