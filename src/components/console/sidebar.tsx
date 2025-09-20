@@ -28,8 +28,8 @@ export function ConsoleSidebar() {
   return (
     <Sidebar className="border-r" side="left">
       <SidebarHeader className="border-b h-16 p-4 flex items-center">
-        <Link href="/console" className="flex items-center gap-2 font-semibold">
-          <Image src={ArchiSketchLogo} alt="ArchiSketch Logo" width={24} height={24} />
+        <Link href="/console" className="flex items-center gap-2 font-semibold text-foreground">
+          <Image src={ArchiSketchLogo} alt="ArchiSketch Logo" width={24} height={24} className="text-primary" />
           {state === 'expanded' && <span className="font-semibold">ArchiSketch</span>}
         </Link>
       </SidebarHeader>
