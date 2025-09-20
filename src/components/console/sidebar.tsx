@@ -34,7 +34,7 @@ export function ConsoleSidebar() {
 
   return (
     <Sidebar>
-      <SidebarHeader className="h-16 border-b flex items-center">
+      <SidebarHeader className="h-16 border-b flex items-center px-4">
         <Link href="/console" className="flex items-center gap-2.5 text-foreground">
           <Logo className="h-6 w-6 text-foreground" />
           {state === 'expanded' && <span className="font-semibold text-lg">ArchiSketch</span>}
