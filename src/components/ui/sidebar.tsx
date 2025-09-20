@@ -146,6 +146,7 @@ const SidebarProvider = React.forwardRef<
             )}
             ref={ref}
             {...props}
+            data-state={state}
           >
             {children}
           </div>
@@ -242,12 +243,11 @@ const SidebarHeader = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div">
 >(({ className, ...props }, ref) => {
-  const { state } = useSidebar();
   return (
     <div
       ref={ref}
       data-sidebar="header"
-      className={cn("flex", state === 'expanded' ? 'flex-row' : 'flex-col', "gap-2 p-2", className)}
+      className={cn("flex items-center", "gap-2 p-2", className)}
       {...props}
     />
   )
@@ -355,21 +355,20 @@ const SidebarMenuButton = React.forwardRef<
     const Comp = asChild ? Slot : "button"
     const { isMobile, state } = useSidebar()
 
-    const mainChildren = React.Children.toArray(children);
-    const icon = mainChildren.find(child => React.isValidElement(child) && (child.type as any).render?.displayName === 'LucideIcon');
-    const label = mainChildren.find(child => !icon || child !== icon);
-
     const button = (
       <Comp
         ref={ref}
         data-sidebar="menu-button"
         data-size={size}
         data-active={isActive}
-        className={cn(sidebarMenuButtonVariants({ size }), state === 'collapsed' && 'justify-center w-10 h-10 p-0', className)}
+        className={cn(
+          sidebarMenuButtonVariants({ size }), 
+          state === 'collapsed' && 'justify-center w-10 h-10 p-0', 
+          className
+        )}
         {...props}
       >
-        {icon}
-        {state === 'expanded' && label}
+        {children}
       </Comp>
     )
 

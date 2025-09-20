@@ -38,7 +38,7 @@ export function ConsoleSidebar() {
         <SidebarHeader className="h-16 border-b flex items-center px-4">
             <Link href="/console" className="flex items-center gap-2.5 text-foreground">
             <Logo className="h-6 w-6 text-foreground" />
-            {state === 'expanded' && <span className="font-semibold text-lg">ArchiSketch</span>}
+            <span className="font-semibold text-lg group-data-[state=collapsed]/sidebar-wrapper:hidden">ArchiSketch</span>
             </Link>
         </SidebarHeader>
         <SidebarContent>
@@ -52,7 +52,7 @@ export function ConsoleSidebar() {
                         className="text-foreground font-medium"
                     >
                         <item.icon />
-                        <span>{item.label}</span>
+                        <span className="group-data-[state=collapsed]/sidebar-wrapper:hidden">{item.label}</span>
                     </SidebarMenuButton>
                 </Link>
                 </SidebarMenuItem>
@@ -70,7 +70,7 @@ export function ConsoleSidebar() {
                             className="text-foreground font-medium"
                         >
                             <item.icon />
-                            <span>{item.label}</span>
+                            <span className="group-data-[state=collapsed]/sidebar-wrapper:hidden">{item.label}</span>
                         </SidebarMenuButton>
                     </Link>
                     </SidebarMenuItem>
