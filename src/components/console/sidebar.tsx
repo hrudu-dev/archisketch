@@ -1,8 +1,9 @@
+
 'use client';
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Edit } from 'lucide-react';
+import { Home, Edit, PanelLeft } from 'lucide-react';
 import {
   Sidebar,
   SidebarContent,
@@ -12,9 +13,7 @@ import {
   SidebarMenuButton,
   SidebarTrigger,
 } from '@/components/ui/sidebar';
-import { cn } from '@/lib/utils';
-import Image from 'next/image';
-import ArchiSketchLogo from '../../../public/archisketch-logo.svg';
+import { Button } from '@/components/ui/button';
 
 const menuItems = [
   { href: '/console', label: 'Dashboard', icon: Home },
