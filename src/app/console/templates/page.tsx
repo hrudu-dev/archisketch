@@ -2,8 +2,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Search } from "lucide-react";
 
 const templates = [
@@ -49,73 +48,46 @@ export default function TemplatesPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-        {/* Filters Sidebar */}
-        <aside className="lg:col-span-1">
-          <Card>
+      <div className="mb-6 flex flex-col sm:flex-row items-center gap-4">
+        <div className="relative w-full sm:flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            type="search"
+            placeholder="Search templates by name or keyword..."
+            className="w-full pl-10"
+          />
+        </div>
+        <Select>
+          <SelectTrigger className="w-full sm:w-auto sm:min-w-48">
+            <SelectValue placeholder="All Categories" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Categories</SelectItem>
+            <SelectItem value="cloud">Cloud</SelectItem>
+            <SelectItem value="kubernetes">Kubernetes</SelectItem>
+            <SelectItem value="serverless">Serverless</SelectItem>
+            <SelectItem value="microservices">Microservices</SelectItem>
+            <SelectItem value="data">Data</SelectItem>
+            <SelectItem value="security">Security</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {templates.map((template) => (
+          <Card key={template.title}>
             <CardHeader>
-              <CardTitle>Filters</CardTitle>
+              <CardTitle>{template.title}</CardTitle>
+              <CardDescription>{template.description}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label className="font-semibold">Category</Label>
-                <div className="flex items-center space-x-2">
-                  <Checkbox id="filter-cloud" />
-                  <Label htmlFor="filter-cloud">Cloud</Label>
-                </div>
-                 <div className="flex items-center space-x-2">
-                  <Checkbox id="filter-kubernetes" />
-                  <Label htmlFor="filter-kubernetes">Kubernetes</Label>
-                </div>
-                 <div className="flex items-center space-x-2">
-                  <Checkbox id="filter-serverless" />
-                  <Label htmlFor="filter-serverless">Serverless</Label>
-                </div>
-                 <div className="flex items-center space-x-2">
-                  <Checkbox id="filter-microservices" />
-                  <Label htmlFor="filter-microservices">Microservices</Label>
-                </div>
-                 <div className="flex items-center space-x-2">
-                  <Checkbox id="filter-data" />
-                  <Label htmlFor="filter-data">Data</Label>
-                </div>
-                 <div className="flex items-center space-x-2">
-                  <Checkbox id="filter-security" />
-                  <Label htmlFor="filter-security">Security</Label>
-                </div>
+              <div className="flex items-center justify-center h-40 bg-muted rounded-md">
+                <p className="text-sm text-muted-foreground">Diagram Preview</p>
               </div>
+              <Button className="w-full">Use Template</Button>
             </CardContent>
           </Card>
-        </aside>
-
-        {/* Main Content */}
-        <main className="lg:col-span-3">
-          <div className="relative mb-6">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Search templates by name or keyword..."
-              className="w-full pl-10"
-            />
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-2">
-            {templates.map((template) => (
-              <Card key={template.title}>
-                <CardHeader>
-                  <CardTitle>{template.title}</CardTitle>
-                  <CardDescription>{template.description}</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex items-center justify-center h-40 bg-muted rounded-md">
-                    <p className="text-sm text-muted-foreground">Diagram Preview</p>
-                  </div>
-                  <Button className="w-full">Use Template</Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </main>
+        ))}
       </div>
     </div>
   );
