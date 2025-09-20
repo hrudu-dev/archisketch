@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Download, LogOut, Settings, User as UserIcon } from 'lucide-react';
+import { Download, LogOut, Settings, Share2, User as UserIcon } from 'lucide-react';
 import { toPng } from 'html-to-image';
 import { saveAs } from 'file-saver';
 
@@ -10,8 +10,11 @@ import ArchiSketchLogo from '../../../public/archisketch-logo.svg';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useSidebar } from '@/components/ui/sidebar';
 
 export function Header({ children }: { children?: React.ReactNode }) {
+  const { toggleSidebar } = useSidebar();
+  
   const handleExport = () => {
     const canvasElement = document.getElementById('diagram-canvas');
     if (!canvasElement) {
@@ -43,13 +46,24 @@ export function Header({ children }: { children?: React.ReactNode }) {
   };
 
   return (
-    <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6 py-2">
-      <Link href="/console" className="flex items-center gap-2 font-semibold">
-        <Image src={ArchiSketchLogo} alt="ArchiSketch Logo" className="h-6 w-6" />
-        <span className="">ArchiSketch</span>
-      </Link>
+    <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-background px-4 sm:px-6">
+      <div className="flex items-center gap-2">
+        <button onClick={toggleSidebar} className="hidden md:block">
+          <Image src={ArchiSketchLogo} alt="ArchiSketch Logo" className="h-6 w-6" />
+          <span className="sr-only">Toggle Sidebar</span>
+        </button>
+        <Link href="/console" className="flex items-center gap-2 font-semibold md:hidden">
+          <Image src={ArchiSketchLogo} alt="ArchiSketch Logo" className="h-6 w-6" />
+        </Link>
+        <h1 className="text-xl font-semibold">ArchiSketch</h1>
+      </div>
+
       {children}
       <div className="ml-auto flex items-center gap-2">
+        <Button variant="outline" size="sm">
+          <Share2 className="h-4 w-4 mr-2" />
+          Share
+        </Button>
         <Button variant="outline" size="sm" onClick={handleExport}>
           <Download className="h-4 w-4 mr-2" />
           Export

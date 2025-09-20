@@ -5,7 +5,16 @@ import React, { useState, useCallback } from 'react';
 import Link from 'next/link';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { PanelLeft, PanelRight, LayoutDashboard, Settings, LifeBuoy } from 'lucide-react';
+import {
+  PanelLeft,
+  PanelRight,
+  LayoutDashboard,
+  Settings,
+  LifeBuoy,
+  LogOut,
+  FolderKanban,
+  ClipboardPlus,
+} from 'lucide-react';
 import { Header } from '@/components/console/header';
 import { ComponentLibrary } from '@/components/console/component-library';
 import { AiPanel } from '@/components/console/ai-panel';
@@ -26,7 +35,6 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar';
 import { Button } from '@/components/ui/button';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Separator } from '@/components/ui/separator';
 
 function ConsoleLayout() {
@@ -74,22 +82,11 @@ function ConsoleLayout() {
   }, []);
 
   const selectedNode = diagram.nodes.find((n) => n.id === selectedNodeId) || null;
-  const { isMobile, setOpenMobile } = useSidebar();
   const { setOpen: setRightSidebarOpen } = useSidebar();
-
-  const handleLoadTemplate = useCallback(
-    (id: string) => {
-      loadTemplate(id);
-      if (isMobile) {
-        setOpenMobile(false);
-      }
-    },
-    [loadTemplate, isMobile, setOpenMobile]
-  );
   
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="flex h-screen w-full flex-col bg-muted/40">
+      <div className="flex h-screen w-full flex-col bg-background">
         <Header>
           <div className="flex items-center gap-2">
             <SidebarTrigger className="md:hidden">
@@ -106,41 +103,60 @@ function ConsoleLayout() {
           <Sidebar side="left" collapsible="icon">
             <SidebarContent>
               <SidebarMenu>
-                <SidebarMenuItem>
-                  <SidebarMenuButton asChild isActive>
+                 <SidebarMenuItem>
+                  <SidebarMenuButton asChild tooltip="Dashboard" isActive>
                     <Link href="/console">
                       <LayoutDashboard />
-                      <span>Dashboard</span>
+                      <span className="group-data-[collapsible=icon]:hidden">Dashboard</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild tooltip="Projects">
+                    <Link href="#">
+                      <FolderKanban />
+                      <span className="group-data-[collapsible=icon]:hidden">Projects</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild tooltip="Templates">
+                    <Link href="#">
+                      <ClipboardPlus />
+                      <span className="group-data-[collapsible=icon]:hidden">Templates</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               </SidebarMenu>
 
-              <Accordion type="multiple" defaultValue={['components']} className="w-full px-2 mt-4">
-                  <AccordionItem value="components">
-                    <AccordionTrigger className="text-sm font-medium text-muted-foreground hover:text-foreground hover:no-underline p-2 rounded-md">
-                      <span>Components</span>
-                    </AccordionTrigger>
-                    <AccordionContent className="p-0">
-                      <ComponentLibrary loadTemplate={handleLoadTemplate} />
-                    </AccordionContent>
-                  </AccordionItem>
-              </Accordion>
+              <div className="mt-auto">
+                <Separator className="my-2" />
+                <ComponentLibrary loadTemplate={loadTemplate} />
+              </div>
+
             </SidebarContent>
             <SidebarFooter>
                 <Separator className="my-2" />
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <SidebarMenuButton>
+                        <SidebarMenuButton tooltip="Support">
                             <LifeBuoy />
-                            <span>Support</span>
+                            <span className="group-data-[collapsible=icon]:hidden">Support</span>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                     <SidebarMenuItem>
-                        <SidebarMenuButton>
+                        <SidebarMenuButton tooltip="Settings">
                             <Settings />
-                            <span>Settings</span>
+                             <span className="group-data-[collapsible=icon]:hidden">Settings</span>
                         </SidebarMenuButton>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                      <SidebarMenuButton asChild tooltip="Log Out">
+                        <Link href="/">
+                          <LogOut />
+                          <span className="group-data-[collapsible=icon]:hidden">Log Out</span>
+                        </Link>
+                      </SidebarMenuButton>
                     </SidebarMenuItem>
                 </SidebarMenu>
             </SidebarFooter>

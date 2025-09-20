@@ -59,7 +59,7 @@ export function Canvas({ diagram, onNodeMove, onNewComponentDrop, onNodeSelect, 
         canvasRef.current = el;
         drop(el);
       }}
-      className="h-full w-full bg-white relative overflow-hidden"
+      className="h-full w-full bg-background relative overflow-hidden"
       onClick={(e) => {
         if (e.target === canvasRef.current) {
           onNodeSelect(null);
