@@ -34,7 +34,7 @@ const mockProjects = [
 
 export default function ProjectsPage() {
   return (
-    <div className="container mx-auto p-4 sm:p-6 lg:p-8">
+    <div className="p-4 md:p-8">
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-3xl font-bold tracking-tight">Projects</h1>
         <NewProjectDialog />
@@ -46,7 +46,7 @@ export default function ProjectsPage() {
       <div className="grid gap-6">
         {mockProjects.map((project) => (
           <Card key={project.id}>
-            <CardHeader className="flex flex-row items-start justify-between">
+            <CardHeader className="flex flex-row items-start justify-between gap-4">
               <div>
                 <CardTitle>{project.name}</CardTitle>
                 <CardDescription>{project.description}</CardDescription>
