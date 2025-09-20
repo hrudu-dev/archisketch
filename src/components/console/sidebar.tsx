@@ -27,12 +27,11 @@ export function ConsoleSidebar() {
 
   return (
     <Sidebar className="border-r" side="left">
-      <SidebarHeader className="border-b p-2 justify-center flex items-center gap-2">
+      <SidebarHeader className="border-b h-16 p-4 flex items-center">
         <Link href="/console" className="flex items-center gap-2 font-semibold">
-          <Image src={ArchiSketchLogo} alt="ArchiSketch Logo" width={28} height={28} />
-          {state === 'expanded' && <span className="text-lg font-semibold">ArchiSketch</span>}
+          <Image src={ArchiSketchLogo} alt="ArchiSketch Logo" width={24} height={24} />
+          {state === 'expanded' && <span className="font-semibold">ArchiSketch</span>}
         </Link>
-        <div className="flex-1" />
       </SidebarHeader>
       <SidebarContent>
         <SidebarMenu>

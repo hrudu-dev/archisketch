@@ -22,7 +22,7 @@ export function ConsoleHeader() {
 
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-4">
         <Link href="/console" className="flex items-center gap-2 font-semibold">
           <Image src={ArchiSketchLogo} alt="ArchiSketch Logo" width={24} height={24} />
           <span className="hidden sm:inline-block">ArchiSketch</span>
