@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Search, Server, Shield, BrainCircuit, Database, Cloud, Code } from "lucide-react";
-import placeholderImages from "@/lib/placeholder-images.json";
 
 const templates = [
   {
@@ -88,7 +87,7 @@ export default function TemplatesPage() {
               <CardDescription>{template.description}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4 flex flex-col flex-grow">
-              <div className="relative aspect-video bg-muted rounded-md overflow-hidden flex items-center justify-center">
+              <div className="relative aspect-video bg-muted rounded-md overflow-hidden flex items-center justify-center flex-grow">
                 <template.icon className="h-16 w-16 text-muted-foreground" />
               </div>
               <Button className="w-full mt-auto">Use Template</Button>
