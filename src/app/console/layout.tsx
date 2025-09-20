@@ -15,9 +15,9 @@ export default function ConsoleLayout({
 }) {
   return (
     <SidebarProvider>
-      <div className="flex h-screen overflow-hidden">
+      <div className="flex min-h-screen">
         <ConsoleSidebar />
-        <main className="flex flex-1 flex-col overflow-y-auto bg-background">
+        <main className="flex-1 flex flex-col w-full">
           <ConsoleHeader />
           <div className="flex-1 overflow-y-auto">{children}</div>
         </main>

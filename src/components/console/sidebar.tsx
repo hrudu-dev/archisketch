@@ -33,8 +33,8 @@ export function ConsoleSidebar() {
   const { state } = useSidebar();
 
   return (
-    <Sidebar side="left">
-      <SidebarHeader className="h-16 p-4 border-b">
+    <Sidebar>
+      <SidebarHeader className="h-16 border-b flex items-center">
         <Link href="/console" className="flex items-center gap-2.5 text-foreground">
           <Logo className="h-6 w-6 text-foreground" />
           {state === 'expanded' && <span className="font-semibold text-lg">ArchiSketch</span>}
@@ -50,7 +50,7 @@ export function ConsoleSidebar() {
                     tooltip={item.label}
                     className="text-foreground font-medium"
                   >
-                    <item.icon className="h-5 w-5" />
+                    <item.icon />
                     <span>{item.label}</span>
                   </SidebarMenuButton>
               </Link>
@@ -68,7 +68,7 @@ export function ConsoleSidebar() {
                         tooltip={item.label}
                         className="text-foreground font-medium"
                     >
-                        <item.icon className="h-5 w-5" />
+                        <item.icon />
                         <span>{item.label}</span>
                     </SidebarMenuButton>
                 </Link>
