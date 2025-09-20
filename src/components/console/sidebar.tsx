@@ -13,10 +13,8 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-  SidebarTrigger,
   useSidebar,
 } from '@/components/ui/sidebar';
-import { Button } from '@/components/ui/button';
 
 const menuItems = [
   { href: '/console', label: 'Dashboard', icon: Home },
@@ -35,15 +33,12 @@ export function ConsoleSidebar() {
           {state === 'expanded' && <span className="text-lg font-semibold">ArchiSketch</span>}
         </Link>
         <div className="flex-1" />
-        <SidebarTrigger>
-          <PanelLeft />
-        </SidebarTrigger>
       </SidebarHeader>
       <SidebarContent>
         <SidebarMenu>
           {menuItems.map((item) => (
             <SidebarMenuItem key={item.href}>
-              <Link href={item.href} passHref>
+              <Link href={item.href}>
                 <SidebarMenuButton
                   asChild
                   isActive={pathname === item.href}
