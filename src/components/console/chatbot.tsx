@@ -4,13 +4,14 @@
 import { useState, useRef, useEffect } from 'react';
 import { useActionState } from 'react';
 import { useFormStatus } from 'react-dom';
-import { Bot, Send, Loader, User } from 'lucide-react';
+import { Bot, Send, Loader, User, AlertCircle } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { chatAction } from '@/lib/actions';
 import { cn } from '@/lib/utils';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 type Message = {
   role: 'user' | 'model';
@@ -18,9 +19,9 @@ type Message = {
 };
 
 const initialFormState = {
-  status: 'idle',
-  message: '',
-  chatHistory: [],
+  status: 'idle' as 'idle' | 'success' | 'error',
+  error: null as string | null,
+  newMessage: null as Message | null,
 };
 
 function SubmitButton() {
@@ -38,18 +39,23 @@ export function Chatbot() {
   const [formState, action] = useActionState(chatAction, initialFormState);
   const formRef = useRef<HTMLFormElement>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const [isPending, setIsPending] = useState(false);
 
   useEffect(() => {
     if (formState.status === 'success' && formState.newMessage) {
-      setMessages(prevMessages => [...prevMessages, formState.newMessage as Message]);
+      // Replace the last message (which was the loading indicator) with the actual response
+      setMessages(prevMessages => [...prevMessages.slice(0, -1), formState.newMessage as Message]);
       formRef.current?.reset();
+    } else if (formState.status === 'error') {
+      // Replace the loading indicator with an error message
+      const errorMessage: Message = { role: 'model', content: `Error: ${formState.error}` };
+      setMessages(prevMessages => [...prevMessages.slice(0, -1), errorMessage]);
     }
-    // You can add handling for 'error' status here if needed
+    setIsPending(false);
   }, [formState]);
   
   useEffect(() => {
     if (scrollAreaRef.current) {
-        // A bit of a hack to scroll to the bottom.
         setTimeout(() => {
             if (scrollAreaRef.current) {
                 scrollAreaRef.current.scrollTo({
@@ -65,14 +71,17 @@ export function Chatbot() {
   const handleAction = async (formData: FormData) => {
     const userInput = formData.get('message') as string;
     if (!userInput.trim()) return;
+    setIsPending(true);
 
     const userMessage: Message = { role: 'user', content: userInput };
-    setMessages(prevMessages => [...prevMessages, userMessage]);
+    const loadingMessage: Message = { role: 'model', content: '...' };
+    const updatedMessages = [...messages, userMessage, loadingMessage];
+    
+    setMessages(updatedMessages);
 
-    const chatHistory = [...messages, userMessage];
     const newFormData = new FormData();
     newFormData.append('message', userInput);
-    newFormData.append('history', JSON.stringify(chatHistory));
+    newFormData.append('history', JSON.stringify([...messages, userMessage])); // Send history *with* new user message
 
     action(newFormData);
   };
@@ -107,12 +116,18 @@ export function Chatbot() {
                     <div
                       className={cn(
                         'p-3 rounded-lg max-w-[80%]',
-                        message.role === 'user'
+                         message.role === 'user'
                           ? 'bg-muted'
+                          : message.content.startsWith('Error:')
+                          ? 'bg-destructive/20 text-destructive'
                           : 'bg-secondary'
                       )}
                     >
-                      <p className="text-sm">{message.content}</p>
+                      {message.content === '...' ? (
+                         <Loader className="h-5 w-5 animate-spin" />
+                      ) : (
+                        <p className="text-sm">{message.content.replace(/^Error: /, '')}</p>
+                      )}
                     </div>
                      {message.role === 'user' && (
                       <div className="bg-secondary rounded-full p-2">
@@ -125,16 +140,29 @@ export function Chatbot() {
             </ScrollArea>
           </div>
           <div className="p-4 border-t">
+            {formState.status === 'error' && formState.error && !isPending && (
+                <Alert variant="destructive" className="mb-4">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertDescription>
+                        {formState.error.replace('Failed to get a response from the chatbot.', '')}
+                    </AlertDescription>
+                </Alert>
+            )}
             <form
               ref={formRef}
               action={handleAction}
               className="flex items-center gap-2"
+              onSubmit={(e) => {
+                  e.preventDefault();
+                  handleAction(new FormData(e.currentTarget));
+              }}
             >
               <Input
                 name="message"
                 placeholder="Ask me anything..."
                 className="flex-1"
                 autoComplete="off"
+                disabled={isPending}
               />
               <SubmitButton />
             </form>

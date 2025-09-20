@@ -20,6 +20,7 @@ import {
   ZoomIn,
   ZoomOut,
   Loader,
+  AlertCircle,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -47,6 +48,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { chatAction } from '@/lib/actions';
 import { Textarea } from '../ui/textarea';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 const libraryItems = {
   ai: ['AI Model', 'ML Pipeline', 'Agent'],
@@ -61,15 +63,15 @@ type Message = {
 };
 
 const initialFormState = {
-  status: 'idle',
-  message: '',
-  chatHistory: [],
+  status: 'idle' as 'idle' | 'success' | 'error',
+  error: null as string | null,
+  newMessage: null as Message | null,
 };
 
 function EditorSubmitButton() {
   const { pending } = useFormStatus();
   return (
-    <Button type="submit" size="icon" disabled={pending} className="absolute right-3 top-1/2 -translate-y-1/2 h-8 w-8">
+    <Button type="submit" size="icon" disabled={pending} className="absolute right-3 top-3 h-8 w-8">
       {pending ? (
         <Loader className="h-4 w-4 animate-spin" />
       ) : (
@@ -90,20 +92,26 @@ export function EditorLayout() {
   const [formState, action] = useActionState(chatAction, initialFormState);
   const formRef = useRef<HTMLFormElement>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const [isPending, setIsPending] = useState(false);
 
   useEffect(() => {
     if (formState.status === 'success' && formState.newMessage) {
-      setMessages(prevMessages => [...prevMessages, formState.newMessage as Message]);
-      formRef.current?.reset();
+        setMessages(prevMessages => [...prevMessages.slice(0, -1), formState.newMessage as Message]);
+        formRef.current?.reset();
+    } else if (formState.status === 'error') {
+      const errorMessage: Message = { role: 'model', content: `Error: ${formState.error}` };
+      setMessages(prevMessages => [...prevMessages.slice(0, -1), errorMessage]);
     }
+    setIsPending(false);
   }, [formState]);
 
   useEffect(() => {
     if (scrollAreaRef.current) {
         setTimeout(() => {
-            if (scrollAreaRef.current) {
-                scrollAreaRef.current.scrollTo({
-                    top: scrollAreaRef.current.scrollHeight,
+            const viewport = scrollAreaRef.current?.querySelector('div[data-radix-scroll-area-viewport]');
+            if (viewport) {
+                viewport.scrollTo({
+                    top: viewport.scrollHeight,
                     behavior: 'smooth'
                 });
             }
@@ -114,13 +122,17 @@ export function EditorLayout() {
   const handleAction = async (formData: FormData) => {
     const userInput = formData.get('message') as string;
     if (!userInput.trim()) return;
+    setIsPending(true);
 
     const userMessage: Message = { role: 'user', content: userInput };
-    setMessages(prevMessages => [...prevMessages, userMessage]);
+    const loadingMessage: Message = { role: 'model', content: '...' };
+
+    const updatedMessages = [...messages, userMessage, loadingMessage];
+    setMessages(updatedMessages);
 
     const newFormData = new FormData();
     newFormData.append('message', userInput);
-    newFormData.append('history', JSON.stringify(messages)); // Pass current messages
+    newFormData.append('history', JSON.stringify([...messages, userMessage]));
 
     action(newFormData);
   };
@@ -128,21 +140,21 @@ export function EditorLayout() {
 
   return (
     <TooltipProvider>
-      <div className="h-full w-full">
+      <div className="h-full w-full overflow-hidden">
         <ResizablePanelGroup direction="horizontal" className="h-full items-stretch">
           <ResizablePanel defaultSize={20} minSize={15} maxSize={25}>
-            <div className="flex h-full flex-col p-4 gap-4">
-              <h2 className="text-xl font-semibold">Component Library</h2>
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <div className="flex h-full flex-col p-2 gap-2">
+              <h2 className="text-lg font-semibold px-2 pt-2">Component Library</h2>
+              <div className="relative px-2">
+                <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input placeholder="Search components..." className="pl-10" />
               </div>
-              <ScrollArea className="flex-1 -mx-4">
+              <ScrollArea className="flex-1 -mx-2">
                 <Accordion type="multiple" defaultValue={['ai', 'cloud']} className="w-full">
                   <AccordionItem value="ai">
-                    <AccordionTrigger className="px-4">AI & ML</AccordionTrigger>
+                    <AccordionTrigger className="px-4 text-sm">AI & ML</AccordionTrigger>
                     <AccordionContent>
-                      <ul className="space-y-1 px-4">
+                      <ul className="space-y-1 pl-8 pr-4">
                         {libraryItems.ai.map(item => (
                           <li key={item} className="p-2 rounded-md hover:bg-muted cursor-pointer text-sm">
                             {item}
@@ -152,9 +164,9 @@ export function EditorLayout() {
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="cloud">
-                    <AccordionTrigger className="px-4">Cloud</AccordionTrigger>
+                    <AccordionTrigger className="px-4 text-sm">Cloud</AccordionTrigger>
                     <AccordionContent>
-                      <ul className="space-y-1 px-4">
+                      <ul className="space-y-1 pl-8 pr-4">
                         {libraryItems.cloud.map(item => (
                           <li key={item} className="p-2 rounded-md hover:bg-muted cursor-pointer text-sm">
                             {item}
@@ -164,9 +176,9 @@ export function EditorLayout() {
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="dev">
-                    <AccordionTrigger className="px-4">Development</AccordionTrigger>
+                    <AccordionTrigger className="px-4 text-sm">Development</AccordionTrigger>
                     <AccordionContent>
-                      <ul className="space-y-1 px-4">
+                      <ul className="space-y-1 pl-8 pr-4">
                         {libraryItems.dev.map(item => (
                           <li key={item} className="p-2 rounded-md hover:bg-muted cursor-pointer text-sm">
                             {item}
@@ -176,9 +188,9 @@ export function EditorLayout() {
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="security">
-                    <AccordionTrigger className="px-4">Security</AccordionTrigger>
+                    <AccordionTrigger className="px-4 text-sm">Security</AccordionTrigger>
                     <AccordionContent>
-                      <ul className="space-y-1 px-4">
+                      <ul className="space-y-1 pl-8 pr-4">
                         {libraryItems.security.map(item => (
                           <li key={item} className="p-2 rounded-md hover:bg-muted cursor-pointer text-sm">
                             {item}
@@ -194,10 +206,10 @@ export function EditorLayout() {
           <ResizableHandle withHandle />
           <ResizablePanel defaultSize={55}>
             <div className="relative flex h-full flex-col items-center justify-center">
-              <div className="absolute top-4 left-4 z-10 bg-background/80 backdrop-blur-sm p-2 rounded-lg border flex items-center gap-2">
+              <div className="absolute top-4 left-4 z-10 bg-background/80 backdrop-blur-sm p-1 rounded-lg border flex items-center gap-1">
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button variant="ghost" size="icon">
+                    <Button variant="ghost" size="icon" className="h-8 w-8">
                       <MousePointer2 className="h-4 w-4" />
                     </Button>
                   </TooltipTrigger>
@@ -205,30 +217,35 @@ export function EditorLayout() {
                 </Tooltip>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button variant="ghost" size="icon">
+                    <Button variant="ghost" size="icon" className="h-8 w-8">
                       <Move className="h-4 w-4" />
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent>Pan (H)</TooltipContent>
                 </Tooltip>
               </div>
-              <div className="flex items-center justify-center h-full w-full border-2 border-dashed rounded-lg bg-muted/50">
+              <div className="flex items-center justify-center h-full w-full border-2 border-dashed rounded-lg bg-muted/50 m-4">
                 <p className="text-muted-foreground">Infinity Canvas</p>
               </div>
-              <div className="absolute bottom-4 right-4 z-10 bg-background/80 backdrop-blur-sm p-2 rounded-lg border flex items-center gap-2">
-                <Button variant="ghost" size="icon">
+              <div className="absolute bottom-4 right-4 z-10 bg-background/80 backdrop-blur-sm p-1 rounded-lg border flex items-center gap-1">
+                <Button variant="ghost" size="icon" className="h-8 w-8">
                   <ZoomOut className="h-4 w-4" />
                 </Button>
                 <Input type="text" readOnly value="100%" className="w-16 h-8 text-center" />
-                <Button variant="ghost" size="icon">
+                <Button variant="ghost" size="icon" className="h-8 w-8">
                   <ZoomIn className="h-4 w-4" />
                 </Button>
               </div>
-              <div className="absolute top-4 right-4 z-10 bg-background/80 backdrop-blur-sm p-2 rounded-lg border flex items-center gap-2">
-                <Button variant="ghost" size="icon">
-                  <Download className="h-4 w-4" />
-                </Button>
-                <Button>
+              <div className="absolute top-4 right-4 z-10 bg-background/80 backdrop-blur-sm p-1 rounded-lg border flex items-center gap-1">
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="ghost" size="icon" className="h-8 w-8">
+                      <Download className="h-4 w-4" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>Export</TooltipContent>
+                </Tooltip>
+                <Button size="sm">
                   <Share className="h-4 w-4 mr-2" />
                   Share
                 </Button>
@@ -238,14 +255,14 @@ export function EditorLayout() {
           <ResizableHandle withHandle />
           <ResizablePanel defaultSize={25} minSize={20} maxSize={30}>
             <Tabs defaultValue="chat" className="flex flex-col h-full">
-              <TabsList className="grid w-full grid-cols-2">
+              <TabsList className="grid w-full grid-cols-2 mt-2 px-2">
                 <TabsTrigger value="chat">Chat</TabsTrigger>
                 <TabsTrigger value="properties">Properties</TabsTrigger>
               </TabsList>
-              <TabsContent value="chat" className="flex-1 flex flex-col h-0">
+              <TabsContent value="chat" className="flex-1 flex flex-col h-0 overflow-hidden">
                 <div className="flex-1 flex flex-col h-full">
-                  <ScrollArea className="flex-1 p-4" ref={scrollAreaRef}>
-                    <div className="space-y-4 pr-4">
+                  <ScrollArea className="flex-1" ref={scrollAreaRef}>
+                    <div className="space-y-4 p-4 pr-6">
                       {messages.map((message, index) => (
                         <div
                           key={index}
@@ -261,11 +278,19 @@ export function EditorLayout() {
                           )}
                           <div
                             className={cn(
-                              'p-3 rounded-lg max-w-[80%]',
-                              message.role === 'user' ? 'bg-muted' : 'bg-secondary'
+                              'p-3 rounded-lg max-w-[85%]',
+                              message.role === 'user'
+                                ? 'bg-muted'
+                                : message.content.startsWith('Error:')
+                                ? 'bg-destructive/20 text-destructive'
+                                : 'bg-secondary'
                             )}
                           >
-                            <p className="text-sm">{message.content}</p>
+                             {message.content === '...' ? (
+                                <Loader className="h-5 w-5 animate-spin" />
+                              ) : (
+                                <p className="text-sm">{message.content.replace(/^Error: /, '')}</p>
+                              )}
                           </div>
                           {message.role === 'user' && (
                             <div className="bg-secondary rounded-full p-2">
@@ -277,9 +302,21 @@ export function EditorLayout() {
                     </div>
                   </ScrollArea>
                   <div className="p-4 border-t">
+                     {formState.status === 'error' && formState.error && !isPending && (
+                        <Alert variant="destructive" className="mb-4">
+                            <AlertCircle className="h-4 w-4" />
+                            <AlertDescription>
+                                {formState.error.replace('Failed to get a response from the chatbot.', '')}
+                            </AlertDescription>
+                        </Alert>
+                    )}
                     <form
                         ref={formRef}
                         action={handleAction}
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            handleAction(new FormData(e.currentTarget));
+                        }}
                         className="relative"
                     >
                       <Textarea
@@ -287,6 +324,13 @@ export function EditorLayout() {
                         placeholder="Ask the AI to modify the diagram..."
                         className="resize-none pr-12"
                         autoComplete="off"
+                        disabled={isPending}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' && !e.shiftKey) {
+                            e.preventDefault();
+                            formRef.current?.requestSubmit();
+                          }
+                        }}
                       />
                       <EditorSubmitButton />
                     </form>
@@ -305,7 +349,7 @@ export function EditorLayout() {
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="color">Color</Label>
-                      <Input id="color" type="color" defaultValue="#a7c4c4" />
+                      <Input id="color" type="color" defaultValue="#a7c4c4" className="p-1" />
                     </div>
                   </CardContent>
                 </Card>

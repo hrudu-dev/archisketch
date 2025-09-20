@@ -62,21 +62,32 @@ export async function chatAction(prevState: any, formData: FormData) {
     });
 
     if (!validated.success) {
-        return { status: 'error', error: validated.error.errors[0].message };
+        return { status: 'error', error: validated.error.errors[0].message, newMessage: null };
     }
 
     try {
         const history = JSON.parse(validated.data.history);
+        // The last message in the history is the new user message
+        const message = validated.data.message;
+        // The history for the AI should be everything *before* the new message
+        const aiHistory = history.slice(0, -1);
+
         const result = await chat({
-            history: history.slice(0, -1), // Exclude the latest user message which is passed separately
-            message: validated.data.message,
+            history: aiHistory,
+            message: message,
         });
+
         return {
             status: 'success',
             newMessage: { role: 'model', content: result.message },
         };
     } catch (e) {
         console.error(e);
-        return { status: 'error', error: 'Failed to get a response from the chatbot.' };
+        const errorMessage = e instanceof Error ? e.message : 'An unknown error occurred.';
+        return { 
+            status: 'error', 
+            error: `Failed to get a response from the chatbot. ${errorMessage}`,
+            newMessage: null
+        };
     }
 }
