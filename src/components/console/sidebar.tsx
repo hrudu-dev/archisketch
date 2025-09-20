@@ -2,8 +2,9 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Home, Edit } from 'lucide-react';
+import { Home, Edit, FolderKanban, LayoutTemplate } from 'lucide-react';
 import {
   Sidebar,
   SidebarContent,
@@ -13,11 +14,17 @@ import {
   SidebarMenuButton,
   useSidebar,
 } from '@/components/ui/sidebar';
-import { Logo } from '@/components/logo';
+import { useTheme } from 'next-themes';
+import { useEffect, useState } from 'react';
+import ArchiSketchLogoDark from '@/../public/archisketch-logo-dark.svg';
+import ArchiSketchLogoLight from '@/../public/archisketch-logo-light.svg';
+import { Logo } from '../logo';
 
 const menuItems = [
   { href: '/console', label: 'Dashboard', icon: Home },
+  { href: '/console/projects', label: 'Projects', icon: FolderKanban },
   { href: '/console/editor', label: 'Editor', icon: Edit },
+  { href: '/console/templates', label: 'Templates', icon: LayoutTemplate },
 ];
 
 export function ConsoleSidebar() {
@@ -25,11 +32,11 @@ export function ConsoleSidebar() {
   const { state } = useSidebar();
 
   return (
-    <Sidebar className="border-r" side="left">
-      <SidebarHeader className="border-b h-16 p-4">
-        <Link href="/console" className="flex items-center gap-2 font-semibold text-foreground">
-          <Logo className="h-6 w-6" />
-          {state === 'expanded' && <span className="font-semibold">ArchiSketch</span>}
+    <Sidebar side="left">
+      <SidebarHeader className="h-16 p-4 border-b">
+        <Link href="/console" className="flex items-center gap-2.5 text-foreground">
+          <Logo className="h-6 w-6 text-foreground" />
+          {state === 'expanded' && <span className="font-semibold text-lg">ArchiSketch</span>}
         </Link>
       </SidebarHeader>
       <SidebarContent>
@@ -40,7 +47,7 @@ export function ConsoleSidebar() {
                   <SidebarMenuButton
                     isActive={pathname === item.href}
                     tooltip={item.label}
-                    className="text-foreground"
+                    className="text-foreground font-medium"
                   >
                     <item.icon className="h-5 w-5" />
                     <span>{item.label}</span>
