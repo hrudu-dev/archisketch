@@ -1,27 +1,27 @@
 
 {
   "template1": {
-    "src": "https://picsum.photos/seed/arch1/600/400",
+    "src": "https://placehold.co/600x400/212939/e0e2e7?text=Web+App+Arch",
     "aiHint": "cloud architecture"
   },
   "template2": {
-    "src": "https://picsum.photos/seed/arch2/600/400",
+    "src": "https://placehold.co/600x400/212939/e0e2e7?text=K8s+Deployment",
     "aiHint": "kubernetes diagram"
   },
   "template3": {
-    "src": "https://picsum.photos/seed/arch3/600/400",
+    "src": "https://placehold.co/600x400/212939/e0e2e7?text=Serverless+Arch",
     "aiHint": "serverless architecture"
   },
   "template4": {
-    "src": "https://picsum.photos/seed/arch4/600/400",
+    "src": "https://placehold.co/600x400/212939/e0e2e7?text=Microservices",
     "aiHint": "microservices diagram"
   },
   "template5": {
-    "src": "https://picsum.photos/seed/arch5/600/400",
+    "src": "https://placehold.co/600x400/212939/e0e2e7?text=Data+Pipeline",
     "aiHint": "data pipeline"
   },
   "template6": {
-    "src": "https://picsum.photos/seed/arch6/600/400",
+    "src": "https://placehold.co/600x400/212939/e0e2e7?text=Security+Arch",
     "aiHint": "security architecture"
   }
 }

@@ -89,12 +89,13 @@ export default function TemplatesPage() {
               <CardDescription>{template.description}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4 flex flex-col flex-grow">
-              <div className="relative h-40 bg-muted rounded-md flex-grow">
+              <div className="relative aspect-video bg-muted rounded-md overflow-hidden">
                 <Image
                   src={template.image.src}
                   alt={`${template.title} preview`}
-                  fill
-                  className="object-cover rounded-md"
+                  width={600}
+                  height={400}
+                  className="object-cover w-full h-full"
                   data-ai-hint={template.image.aiHint}
                 />
               </div>
