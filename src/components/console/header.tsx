@@ -1,8 +1,9 @@
+
 'use client';
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Download, LogOut, Settings, Share2, User as UserIcon } from 'lucide-react';
+import { Download, LogOut, Settings, Share2, User as UserIcon, Menu } from 'lucide-react';
 import { toPng } from 'html-to-image';
 import { saveAs } from 'file-saver';
 
@@ -18,7 +19,10 @@ export function Header({ children }: { children?: React.ReactNode }) {
   const handleExport = () => {
     const canvasElement = document.getElementById('diagram-canvas');
     if (!canvasElement) {
-      console.error('Canvas element not found for export.');
+      // This is expected if not on the editor page.
+      // In a real app, you might show a toast notification.
+      console.log('Export functionality is only available on the diagram editor page.');
+      alert('Export is only available from the diagram editor.')
       return;
     }
 
@@ -47,15 +51,15 @@ export function Header({ children }: { children?: React.ReactNode }) {
 
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-background px-4 sm:px-6">
-      <div className="flex items-center gap-2">
-        <button onClick={toggleSidebar} className="hidden md:block">
-          <Image src={ArchiSketchLogo} alt="ArchiSketch Logo" className="h-6 w-6" />
+      <div className="flex items-center gap-4">
+        <Button variant="ghost" size="icon" onClick={toggleSidebar} className="md:hidden">
+          <Menu />
           <span className="sr-only">Toggle Sidebar</span>
-        </button>
-        <Link href="/console" className="flex items-center gap-2 font-semibold md:hidden">
-          <Image src={ArchiSketchLogo} alt="ArchiSketch Logo" className="h-6 w-6" />
+        </Button>
+        <Link href="/console" className="flex items-center gap-2 font-semibold text-lg">
+          <Image src={ArchiSketchLogo} alt="ArchiSketch Logo" className="h-7 w-7" />
+          <h1>ArchiSketch</h1>
         </Link>
-        <h1 className="text-xl font-semibold">ArchiSketch</h1>
       </div>
 
       {children}
@@ -80,13 +84,17 @@ export function Header({ children }: { children?: React.ReactNode }) {
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <UserIcon className="mr-2 h-4 w-4" />
-              <span>Profile</span>
+            <DropdownMenuItem asChild>
+              <Link href="/console/settings">
+                <UserIcon className="mr-2 h-4 w-4" />
+                <span>Profile</span>
+              </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Settings className="mr-2 h-4 w-4" />
-              <span>Settings</span>
+             <DropdownMenuItem asChild>
+              <Link href="/console/settings">
+                <Settings className="mr-2 h-4 w-4" />
+                <span>Settings</span>
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>

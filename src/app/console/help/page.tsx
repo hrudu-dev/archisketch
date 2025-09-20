@@ -2,6 +2,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import {
   Home,
   FolderKanban,
@@ -10,8 +11,6 @@ import {
   LifeBuoy,
   LogOut,
 } from 'lucide-react';
-import Link from 'next/link';
-
 import {
   Sidebar,
   SidebarContent,
@@ -25,35 +24,43 @@ import {
 } from '@/components/ui/sidebar';
 import { Separator } from '@/components/ui/separator';
 import { Header } from '@/components/console/header';
-import { Button } from '@/components/ui/button';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
-function DashboardContent() {
-  return (
-    <div className="flex-1 p-8">
-      <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
-      <div className="grid gap-6">
-        <div className="border rounded-lg p-6 bg-card">
-          <h2 className="text-xl font-semibold mb-4">Quick Actions</h2>
-          <div className="flex gap-4">
-            <Button>New Diagram</Button>
-            <Button variant="outline">Browse Templates</Button>
-          </div>
+function HelpContent() {
+    return (
+        <div className="flex-1 p-8">
+            <h1 className="text-3xl font-bold mb-6">Help & Tutorials</h1>
+             <Accordion type="single" collapsible className="w-full">
+                <AccordionItem value="item-1">
+                    <AccordionTrigger>What is ArchiSketch?</AccordionTrigger>
+                    <AccordionContent>
+                    ArchiSketch is an AI-powered diagramming tool that allows you to create, edit, and export architecture diagrams for AI, cloud, dev, and security projects.
+                    </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-2">
+                    <AccordionTrigger>How do I create a new diagram?</AccordionTrigger>
+                    <AccordionContent>
+                    You can create a new diagram from the Dashboard using the "New Diagram" button, or from the Projects page. You can also generate a diagram from a text prompt using the AI Assistant.
+                    </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-3">
+                    <AccordionTrigger>How does the AI Assistant work?</AccordionTrigger>
+                    <AccordionContent>
+                    The AI Assistant can generate diagrams from your text descriptions, suggest components and connections to add to your existing diagram, and provide context-aware recommendations.
+                    </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-4">
+                    <AccordionTrigger>Can I export my diagrams?</AccordionTrigger>
+                    <AccordionContent>
+                    Yes, you can export your diagrams as PNG images using the "Export" button in the header. More formats like SVG and PDF are coming soon.
+                    </AccordionContent>
+                </AccordionItem>
+            </Accordion>
         </div>
-        <div className="border rounded-lg p-6 bg-card">
-          <h2 className="text-xl font-semibold mb-4">Recent Diagrams</h2>
-          <p className="text-muted-foreground">No recent diagrams.</p>
-        </div>
-         <div className="border rounded-lg p-6 bg-card">
-          <h2 className="text-xl font-semibold mb-4">Project Overview</h2>
-          <p className="text-muted-foreground">No recent activity.</p>
-        </div>
-      </div>
-    </div>
-  )
+    )
 }
 
-
-function ConsoleLayout() {
+function HelpLayout() {
   return (
     <SidebarProvider>
       <div className="flex h-screen w-full flex-col bg-background">
@@ -66,7 +73,7 @@ function ConsoleLayout() {
               </SidebarHeader>
               <SidebarMenu>
                  <SidebarMenuItem>
-                  <SidebarMenuButton asChild tooltip="Dashboard" isActive>
+                  <SidebarMenuButton asChild tooltip="Dashboard">
                     <Link href="/console">
                       <Home />
                       <span className="group-data-[collapsible=icon]:hidden">Dashboard</span>
@@ -95,7 +102,7 @@ function ConsoleLayout() {
                 <Separator className="my-2" />
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <SidebarMenuButton asChild tooltip="Support">
+                        <SidebarMenuButton asChild tooltip="Support" isActive>
                           <Link href="/console/help">
                             <LifeBuoy />
                             <span className="group-data-[collapsible=icon]:hidden">Support</span>
@@ -104,10 +111,10 @@ function ConsoleLayout() {
                     </SidebarMenuItem>
                     <SidebarMenuItem>
                         <SidebarMenuButton asChild tooltip="Settings">
-                            <Link href="/console/settings">
-                                <Settings />
-                                <span className="group-data-[collapsible=icon]:hidden">Settings</span>
-                            </Link>
+                           <Link href="/console/settings">
+                            <Settings />
+                             <span className="group-data-[collapsible=icon]:hidden">Settings</span>
+                           </Link>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                     <SidebarMenuItem>
@@ -122,7 +129,7 @@ function ConsoleLayout() {
             </SidebarFooter>
           </Sidebar>
           <SidebarInset>
-            <DashboardContent />
+            <HelpContent />
           </SidebarInset>
         </div>
       </div>
@@ -130,6 +137,6 @@ function ConsoleLayout() {
   );
 }
 
-export default function ConsolePage() {
-  return <ConsoleLayout />;
+export default function HelpPage() {
+  return <HelpLayout />;
 }

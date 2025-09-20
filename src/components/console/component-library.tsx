@@ -19,10 +19,12 @@ const DraggableComponent = ({ component }: { component: LibraryComponent }) => {
   return (
     <div
       ref={drag}
-      className="flex cursor-grab items-center gap-3 rounded-lg border bg-card p-3 text-card-foreground transition-all hover:bg-accent hover:text-accent-foreground active:cursor-grabbing"
+      className="flex cursor-grab items-center gap-3 rounded-lg border bg-card p-2 text-card-foreground transition-all hover:bg-accent hover:text-accent-foreground active:cursor-grabbing"
     >
-      <component.icon className="h-6 w-6" />
-      <span className="font-medium">{component.name}</span>
+      <div className="p-1.5 bg-muted rounded-md">
+        <component.icon className="h-5 w-5" />
+      </div>
+      <span className="font-medium text-sm">{component.name}</span>
     </div>
   );
 };
@@ -37,12 +39,12 @@ export function ComponentLibrary({ loadTemplate }: { loadTemplate: (id: string) 
             <TabsTrigger value="components">Components</TabsTrigger>
             <TabsTrigger value="templates">Templates</TabsTrigger>
           </TabsList>
-          <TabsContent value="components" className="mt-0">
-            <ScrollArea className="h-[calc(100vh-28rem)]">
-              <Accordion type="multiple" defaultValue={['Cloud', 'Dev']} className="w-full">
+          <TabsContent value="components" className="mt-2">
+            <ScrollArea className="h-[calc(100vh-20rem)]">
+              <Accordion type="multiple" defaultValue={['Cloud', 'Dev', 'AI']} className="w-full">
                 {categories.map((category) => (
                   <AccordionItem value={category} key={category}>
-                    <AccordionTrigger className="text-sm font-medium text-muted-foreground hover:text-foreground hover:no-underline p-2 rounded-md">
+                    <AccordionTrigger className="text-sm font-medium p-2 rounded-md hover:no-underline">
                       <span>{category}</span>
                     </AccordionTrigger>
                     <AccordionContent className="p-0">
@@ -59,8 +61,8 @@ export function ComponentLibrary({ loadTemplate }: { loadTemplate: (id: string) 
               </Accordion>
             </ScrollArea>
           </TabsContent>
-          <TabsContent value="templates" className="mt-0">
-            <ScrollArea className="h-[calc(100vh-28rem)]">
+          <TabsContent value="templates" className="mt-2">
+            <ScrollArea className="h-[calc(100vh-20rem)]">
               <div className="space-y-3 p-2">
                 {diagramTemplates.map(template => (
                   <Card key={template.id}>
