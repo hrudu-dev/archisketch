@@ -2,10 +2,8 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Home, Edit } from 'lucide-react';
-import ArchiSketchLogo from '../../../public/archisketch-logo.svg';
 import {
   Sidebar,
   SidebarContent,
@@ -15,6 +13,7 @@ import {
   SidebarMenuButton,
   useSidebar,
 } from '@/components/ui/sidebar';
+import { Logo } from '@/components/logo';
 
 const menuItems = [
   { href: '/console', label: 'Dashboard', icon: Home },
@@ -29,7 +28,7 @@ export function ConsoleSidebar() {
     <Sidebar className="border-r" side="left">
       <SidebarHeader className="border-b h-16 p-4">
         <Link href="/console" className="flex items-center gap-2 font-semibold text-foreground">
-          <Image src={ArchiSketchLogo} alt="ArchiSketch Logo" width={24} height={24} className="text-foreground" />
+          <Logo className="h-6 w-6" />
           {state === 'expanded' && <span className="font-semibold">ArchiSketch</span>}
         </Link>
       </SidebarHeader>
