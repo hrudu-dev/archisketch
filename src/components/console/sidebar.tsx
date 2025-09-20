@@ -35,7 +35,7 @@ export function ConsoleSidebar() {
           {state === 'expanded' && <span className="text-lg font-semibold">ArchiSketch</span>}
         </Link>
         <div className="flex-1" />
-        <SidebarTrigger asChild>
+        <SidebarTrigger>
           <Button variant="ghost" size="icon">
             <PanelLeft />
           </Button>
